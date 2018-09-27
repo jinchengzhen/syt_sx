@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- //http://localhost:8080/StuScoreSystem/scoreManagement/html/admin.html -->
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../css/perfect-scrollbar.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/new.css" type="text/css"></link>
+<link rel="stylesheet" href="../bootstrap-ztree3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../bootstrap-ztree3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="../bootstrap-ztree3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="../bootstrap-ztree3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="../js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="../js/perfect-scrollbar.js"></script>
+<script type="text/javascript" src="../js/scoreManage.js"></script>
+<title>学生成绩管理系统（管理员登录）</title>
+</head>
+<body>
+	<div class="total">
+		<!-- title -->
+		<div class="titleblock">
+			<div class="systitle">
+				<font>欢迎进入学生成绩信息管理系统</font>
+			</div>
+			<div class="loginfo">
+			<font>登录人：</font><span id="loginer">xxx</span>
+			<font>登录时间：</font><span id="logintime">YYYY-MM-DD HH:mm:ss</span>
+			</div>
+			<div class="exist"><span onclick="exist()"><img  src="../images/tingzhi.png"><b>退出系统</b></span></div>
+		</div>
+		<!-- 图标 -->
+		<div class="flagblock"><img src="../images/flag.png"height="210" width="226"></div>
+		<!-- 左侧功能菜单 -->
+		<div class="leftblock">
+		</div>
+		<div class="menu">
+			<ul><li  id="init"onclick="showblock('personInfo_Block')"style="list-style-image: url(../images/fjtb1.png);"><span>个人信息</span></li>
+				<li  onclick="showblock('select_Info_Block')"style="list-style-image: url(../images/chakan1.png);"><span>查询信息</span><ul><li onclick="updatefindway('classway')"><span >按课程</span></li><li onclick="updatefindway('gradeway')"><span>按班级</span></li><li onclick="updatefindway('userway')"><span>按用户</span></li></ul></li>
+				<li  onclick="showblock('addPerson_Block')"style="list-style-image: url(../images/addfj.png);"><span>新增人员</span><ul><li onclick="addblockshow('2')"><span>教&#160;师</span></li><li onclick="addblockshow('1')"><span>学&#160;生</span></li></ul></li></ul>
+		</div> 
+		<!-- 主体内容显示 -->	
+		<div id="contentblock"class="contentblock">
+			<!-- 查看详情弹出框 -->
+			<div id="mengc"class="mengc"hidden>
+				<div id="updateblock">
+					<table>
+						<tr><td colspan="2"><font style="margin-left: 46%"><b>人员详细信息</b></font></td></tr>
+						<tr><th style="width: 33%">人员类型：</th><td style="width: 66%"><span id="personal_typeval"value="1">学生</span></td></tr>
+						<tr><th>姓&#160;&#160;名：</th><td><span id="personal_nameval">XXX</span></td></tr>
+						<tr><th>性&#160;&#160;别：</th><td><span id="personal_sexval"value="1">男</span></td></tr>
+						<tr><th>出生日期：</th><td><span id="personal_birthval">1111-11-11</span></td></tr>
+						<tr><th>用&#160;户ID：</th><td><span id="personal_userIDval">1111-11-11</span></td></tr>
+						<tr><th>密&#160;&#160;码：</th><td><span id="personal_passwordval">1111-11-11</span></td></tr>
+						<tr><th>联系电话：</th><td><span id="personal_phoneval">1111-11-11</span></td></tr>
+						<tr><th>班&#160;&#160;级：</th><td><span id="personal_gradeval"></span></td></tr>
+						<tr><th>课&#160;&#160;程：</th><td><span id="personal_classval"></span></td></tr>
+					</table>
+				<div class="btnblock"><button id="btn_hide"onclick="info_hide()"><font style="font-size: 26px;">确定</font></button></div>
+			</div>
+				<div id="tx_img"><img id="tx_jpg"src=""></div>
+					<!-- <div id="ztreeblock0"value="hide"class="updatetreeblock0"hidden><ul id="gradetree" class="ztree"></ul></div>
+					<div id="ztreeblock"value="hide"class="updatetreeblock"hidden><ul id="classtree" class="ztree"></ul></div> -->			</div>
+			<!-- 个人信息 -->
+			<div id="personInfo_Block"class="tcontent"hidden>
+				<div class="detail">
+				<table>
+						<tr><td colspan="2"><font style="margin-left: 46%"><b>人员详细信息</b></font></td></tr>
+						<tr><th style="width: 33%">人员类型：</th><td style="width: 66%"><span id="loginer_typeval"value="1">学生</span></td></tr>
+						<tr><th>姓&#160;&#160;名：</th><td><span id="loginer_nameval">XXX</span></td></tr>
+						<tr><th>性&#160;&#160;别：</th><td><span id="loginer_sexval"value="1">男</span></td></tr>
+						<tr><th>出生日期：</th><td><span id="loginer_birthval">1111-11-11</span></td></tr>
+						<tr><th>用&#160;户ID：</th><td><span id="loginer_userIDval">1111-11-11</span></td></tr>
+						<tr><th>密&#160;&#160;码：</th><td><span id="loginer_passwordval">1111-11-11</span></td></tr>
+						<tr><th>联系电话：</th><td><span id="loginer_phoneval">1111-11-11</span></td></tr>
+						<tr><th>班&#160;&#160;级：</th><td><span id="loginer_gradeval"></span></td></tr>
+						<tr><th>课&#160;&#160;程：</th><td><span id="loginer_classval"></span></td></tr>
+				</table>
+				</div>
+				<div id="user_img"style="margin-left: 56%;margin-top: 10%;"><img id="user_jpg"src=""></div>
+			</div>
+			<!-- 查询信息 -->
+			<div id="select_Info_Block"class="tcontent">
+				<div class="optionblock">
+					<div class="op1"><span><font>人员类型：</font></span></div><div class="op1"><input id="type1"type="radio"name="ptype"value="1"checked><font onclick="$('#type1').click()">学生 </font>  &#160; <input id="type2"type="radio"name="ptype"value="2"><font onclick="$('#type2').click()">教师</font></div>
+					<div class="op1"><span id="findway"name="classway"><font>课&#160;程：</font></span></div><div class="op1"><input id="selIn"class="input"type="text"onclick="treeblockshow('query')"placeholder="请选择 课 程"readonly="readonly"></div>
+					<div class="op1"><button onclick="deal_search()"><font>搜&#160;索</font></button></div>
+					<div class="op1"><button id="export"onclick="exportExcel()"><font>导&#160;出</font></button></div>
+				</div>
+				<div id="querytreeblock"class="querytreeblock"value="hide"hidden><ul id="querytree"class="ztree"></ul></div>
+				<div id="queryblock"class="queryblock">
+					<table>
+						<thead><tr><th style="width:3%;height:38px">序号</th><th style="width:5%">所在班级</th><th style="width:5%">用户ID</th><th style="width:5%">姓名</th><th style="width:3%">性别</th><th style="width:9%">操作</th></tr></thead>
+						<tbody id="querylist">
+						</tbody>
+					</table>
+				</div>
+				<div class="pagepart">
+					<span id="pageinfo"><font>当前</font><font id="pagefoot">0/0</font><font>页</font></span>
+		            <input id="firstpage"class="btn3"type="button"onclick="pageturn($(this).attr('id'))"value="首页">&nbsp;
+		            <input id="lastpage"class="btn3"type="button"onclick="pageturn($(this).attr('id'))"value="上一页">&nbsp;
+		            <input id="nextpage"class="btn3"type="button"onclick="pageturn($(this).attr('id'))"value="下一页">&nbsp;
+		            <input id="endpage"class="btn3"type="button"onclick="pageturn($(this).attr('id'))"value="尾页">
+		   		</div>
+			</div>
+			<!-- 新增表单显示 -->
+			<div id="addPerson_Block"class="tcontent"hidden>
+				<div class="addlist">
+					<form >
+					<table>
+						<tr><td colspan="2"><font style="margin-left: 16%">新增<span id="typeval"value="1">学生</span>用户</font></th></tr>
+						<tr><th style="width:42%">姓&#160;&#160;名：</td><td style="width:52%"><input id="nameval"type="text"placeholder="请输入真实姓名"></td><td style="width:6%"><img id="statenameval"src="../images/f.png"></td></tr>
+						<tr><th>性&#160;&#160;别：</td><td><input id="sex1"type="radio"name="sexval"value="1"checked="checked"style="width: 20px;height: 25px;"><font onclick="$('#sex1').click()">男&#160;</font><input id="sex0"type="radio"name="sexval"value="0"style="width: 20px;height: 25px;"><font onclick="$('#sex0').click()" >女</font></td></tr>
+						<tr><th>出生日期：</td><td><input id="birthval"type="date"></td><td><img id="statebirthval"src="../images/f.png"></tr>
+						<tr><th>用&#160;户ID：</td><td><input id="userIDval"type="text"placeholder="用户ID（10位数字）"></td><td><img id="stateuserIDval"src="../images/f.png"> </td></tr>
+						<tr><th>密&#160;&#160;码：</td><td><input id="passwordval"type="password"placeholder="6~16位字母、数字、下划线"></td><td><img id="statepasswordval"src="../images/f.png"></td></tr>
+						<tr><th>联系电话：</td><td><input id="phoneval"type="text"title="联系电话"placeholder="请输入电话"></td><td><img id="statephoneval"src="../images/f.png"></td></tr>
+						<tr><th>班&#160;&#160;级：</td><td><input id="gradeval"type="text"title="班级"placeholder="请选择班级"onclick="treeblockshow('grade')" readonly="readonly"></td></tr>
+						<tr><th>课&#160;&#160;程：</td><td><input id="classval"type="text"title="课程信息" placeholder="请选择课程"onclick="treeblockshow('class')"readonly="readonly"></td></tr>
+						<input id="reset"type="reset" hidden>
+					</table>
+					</form>
+					<div class="btnblock"><button onclick="deal_add()"><font>确定</font></button><button onclick="$('#reset').click()"><font>重置</font></button></div>
+					<div id="ztreeblock0"value="hide"class="ztreeblock0"hidden><ul id="gradetree" class="ztree"></ul></div>
+					<div id="ztreeblock"value="hide"class="ztreeblock"hidden><ul id="classtree" class="ztree"></ul></div>
+		<script type="text/javascript"> $("#ztreeblock0").perfectScrollbar();$("#ztreeblock").perfectScrollbar();</script>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	<div id='msg'style='display:block;position:absolute;z-index:999999999999;bottom:-40%;right:10px;width:240px; height:130px;border-right:#cccccc 1px solid;border-top:#cccccc 1px solid; border-left:#cccccc 1px solid;border-bottom:#cccccc 1px solid; background-color: #ffffff;'><div style='width:240px;height:25px; color: #ffffff; border-bottom:#cccccc 1px solid; background-color:#143251;text-align:left;text-indent:20px;line-height:25px;'>消息提示</div><div style='width:240px;height:100px;line-height:100px;text-align:center;'><span></span></div></div>
+	<script type="text/javascript">
+	　$(function(){
+　　　　　　$(document).bind("click",function(e){
+　　　　　　       var target  = $(e.target);
+　　　　　  　     if(target.closest("#ztreeblock0").length == 0){
+	　　　　　  　  	var state0 = $("#ztreeblock0").attr("value");
+　　　　　  　  	   if(state0=="show"){
+	　　　　　  　  		var treeObj = $.fn.zTree.getZTreeObj("gradetree");
+	　　　　			var nodes=treeObj.getCheckedNodes(true);
+	　　　　			if(nodes!=null){
+	　　　　				var info="";
+	　　　　				for(var i=0;i<nodes.length;i++){
+	　　　　					 if (nodes[i].isParent){
+	　　　　		          	}else{
+	　　　　		          		info += nodes[i].name+" ; ";
+	　　　　		          	}
+	　　　　				}
+　　　　		          	 $("#gradeval").val(info);
+　　　　		          	 $("#gradeval").attr("title",info);
+	　　　　			}
+	　　　　	      	$("#ztreeblock0").hide();
+	　　　　	      	$("#ztreeblock0").attr("value","hide");
+	　　　　　  　  	}
+　　　　　  　     }
+　　　　　  　     if(target.closest("#ztreeblock").length == 0){
+	　　　　　  　  	var state = $("#ztreeblock").attr("value");
+	　　　　　  　  	if(state=="show"){
+		　　　　　  　  	var treeObj = $.fn.zTree.getZTreeObj("classtree");
+					var nodes=treeObj.getCheckedNodes(true);
+					if(nodes!=null){
+						var info="";
+						for(var i=0;i<nodes.length;i++){
+							 if (nodes[i].isParent){
+				          	}else{
+				          		if(nodes[i].getParentNode()!=null){
+				          			info += nodes[i].getParentNode().name+" - ";
+				          		}
+				          		info +=  nodes[i].name+ " ; ";
+				          	}
+						}
+		          		 $("#classval").val(info);
+		          		 $("#classval").attr("title",info);
+	　　　　　  　  		}
+			      	$("#ztreeblock").hide();
+			      	$("#ztreeblock").attr("value","hide");
+				}
+	 　　　　	}
+　　　　　  　      if(target.closest("#querytreeblock").length == 0){
+	　　　　　  　  	var state = $("#querytreeblock").attr("value");
+	　　　　　  　  	if(state=="show"){
+		　　　　　  　  	var treeObj = $.fn.zTree.getZTreeObj("querytree");
+					var nodes=treeObj.getCheckedNodes(true);
+					if(nodes!=null){
+						var info="";
+						for(var i=0;i<nodes.length;i++){
+							 if (nodes[i].isParent){
+				          	}else{
+				          		if(nodes[i].getParentNode()!=null){
+				          			info += nodes[i].getParentNode().name+" - ";
+				          		}
+				          		info +=  nodes[i].name;
+				          	}
+						}
+		          		 $("#selIn").val(info);
+		          		 $("#selIn").attr("title",info);
+	　　　　　  　  		}
+			      	$("#querytreeblock").hide();
+			      	$("#querytreeblock").attr("value","hide");
+				}
+	 　　　　	}
+　　　　　  　     
+　　　　　  　     });
+	　　　　});
+	</script>
+
+</body>
+</html>
