@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>announce.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  <link rel="stylesheet" href="../css/announce.css" type="text/css"></link>
+  <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="../js/jQuery.timers.js"></script>
+  <script type="text/javascript" src="../../laydate/laydate.js"></script>
+  <script type="text/javascript" src="../js/announce.js"></script>
+  
+  </head>
+  <body>
+  	<div id="mask"class="mask"></div>
+    <div class="main">
+    	<div class="up_block">
+    		<!-- 左右滚动 -->
+    		<div id="scroll_div">
+	    		 <div id="scroll_begin"></div>
+	    		 <div id="scroll_end"></div>
+    		</div>
+    		<!-- 上下滚动 -->
+    		<!-- <ul id="announce_info">
+    			<li></li>
+    		</ul></div> -->
+    	</div>
+    	<div class="up_block_img"><img src="../imgs/notice.jpg"></div>
+    	<div class="announce_block">
+    		<div class="an_title_block"><span class="an_title">公告</span><span class="an_more" onclick="moreinfo()">更多</span></div>
+    		<div class="an_flush_block"><img id="an_flush"src="../imgs/flush.png"onclick="notice_Init()"></img></div>
+    		<div class="on_duty_info_block"><span class="on_duty_info">值班人: &nbsp;&nbsp; XXX &nbsp;12313423565 &nbsp;指挥中心</span></div>
+    		<div class="an_info_list_title_block"><div class="an_info_col1"><font>序号</font></div><div class="an_info_col2"><font>内容</font></div><div class="an_info_col3"><font>发布人</font></div><div class="an_info_col4"><font>发布时间</font></div></div>
+    		<div id="an_info_list_block"class="an_info_list_block">
+    			<div class="an_info_row1">
+	    			<div class="an_info_col1"><font>1</font></div><div class="an_info_col2"><font>申请设施领用</font></div><div class="an_info_col3"><font>张三</font></div><div class="an_info_col4"><font>2018/9/28</font></div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div id="t_mask"class="t_mask"onclick="close_add_alert()"></div>
+    <div id="detail_notice"class="notice_alert"hidden>
+    	<div class="notice_title_block"><span >公告</span><span>&nbsp;&nbsp;</span><div class="notice_x_img"><img src="../imgs/x.png" onclick="close_notice()"></img></div></div>
+    	
+    	<div class="notice_selectANDoption_block">
+    		<div class="notice_select_1"><span>发布人:</span><input id="notice_person"type="text"></div>
+    		<div class="notice_select_2"><span>值班日期:</span><input id="notice_date"type="text"></div>
+    		<div class="notice_option"><a class="button"href="javascript:void(0);"onclick="$('#add_notice_alert').show(tmaskShow())">新增</a><a class="button"href="javascript:void(0);"onclick="notice_search()">查询</a></div>
+    	</div>
+    	<div class="notice_list_block">
+	   		<div class="notice_list_title">
+	   			<div class="notice_col_t_1"><span>序号</span></div><div class="notice_col_t_2"><span>内容</span></div><div class="notice_col_t_3"><span>发布人</span></div><div class="notice_col_t_4"><span>发布时间</span></div><div class="notice_col_t_5"><span>操作</span></div>
+	   		</div>
+	    	<div id="notice_list_body"class="notice_list_body">
+	    	</div>
+	    	<div class="notice_list_pagefoot">
+	    		<div class="notice_page_option_block1"><span id="firstpage"class="notice_page_option"onclick="pageturn($(this).attr('id'))">首页</span><span id="pastpage"class="notice_page_option"onclick="pageturn($(this).attr('id'))">上一页</span></div>
+	    		<div id="notice_page_num_block"class="notice_page_num_block"></div>
+	    		<div class="notice_page_option_block2"><span id="nextpage"class="notice_page_option"onclick="pageturn($(this).attr('id'))">下一页</span><span id="endpage"class="notice_page_option"onclick="pageturn($(this).attr('id'))">尾页</span></div>
+	    		<div class="notice_page_data_block"><span>共</span><span id="total_data">300</span><span>条</span></div>
+	    	</div>
+    	</div>
+    </div>
+    <!--新增  -->
+    <div id="add_notice_alert"class="add_notice_alert"hidden>
+    	<div class="add_title_block"><span>新增</span><div class="add_x_img"><img src="../imgs/x.png" onclick="close_add_alert()"></img></div></div>
+    	<div class="add_ggnr_block">
+    		<div class="add_ggnr_tip"><font>公告内容：</font></div>
+    		<div class="add_ggnr_text"><textarea id="add_ggnr_in"rows="5"wrap="virtual"></textarea></div>
+    	</div>
+    	<div class="add_option_block">
+    		<a class="button"href="javascript:void(0);"onclick="add_notice_submit()">提交</a>&nbsp;&nbsp;&nbsp;<a class="button"href="javascript:void(0);"onclick="close_add_alert()">取消</a>
+    	</div>
+    </div>
+  </body>
+  <script type="text/javascript">
+  		 var start = {
+		    elem: '#notice_date',
+		    event: 'click', 
+		    format: 'YYYY-MM-DD hh:mm:ss',
+		    isclear: false, 
+		    istoday: true,
+		    issure: true,
+		    istime:true,
+		    min: "1900-01-01 00:00:00", 
+		    max:laydate.now(0),
+		    fixed:true, //是否固定在可视区域<br/>  
+		    zIndex: 99999999,
+		    choose: function(datas){
+		       // end.min = datas; //开始日选好后，重置结束日的最小日期
+		        //end.start = datas //将结束日的初始值设定为开始日
+		       	//end.max=laydate.now(0);
+		    }
+		};
+		laydate.skin('danlan');
+		laydate(start);
+		Date.prototype.Format = function(fmt){  
+		  var o = {   
+		    "M+" : this.getMonth()+1,                 //月份   
+		    "d+" : this.getDate(),                    //日   
+		    "h+" : this.getHours(),                   //小时   
+		    "m+" : this.getMinutes(),                 //分   
+		    "s+" : this.getSeconds(),                 //秒   
+		    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+		    "S"  : this.getMilliseconds()             //毫秒   
+		  };   
+		  if(/(y+)/.test(fmt)){   
+		    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+		  }   
+		  for(var k in o){   
+		    if(new RegExp("("+ k +")").test(fmt)){   
+		  		fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+		  	}
+		  }   
+		  return fmt;   
+		};
+		var mydate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+		var ddate = new Date();
+		var ddate1 = new Date();
+		var curMonth = ddate.getMonth();
+		ddate.setDate(ddate.getMonth() -1);
+		ddate.setMonth(curMonth );
+		ddate.setDate(0);
+		ddate=ddate.getDate();
+		ddate1.setDate(ddate1.getDate()-ddate);
+	//	ddate.setDate(ddate.getDate() -1);
+		var startTimes=ddate1.Format('yyyy-MM-dd hh:mm:ss');
+		$("input[id='notice_date']").val(startTimes);
+		start.max=mydate;
+	//公告轮播(上下)
+	/*  function up_block(id,height){
+	  var ul=$(id);
+	  var liFirst=ul.find('li:first');
+	  $(id).animate({top:height}).animate({"top":0},0,function(){
+	  var clone=liFirst.clone();
+	  $(id).append(clone);
+	  liFirst.remove();
+	  })
+	 }
+	 setInterval("up_block('ul','-33px')",2000); */
+	 //公告轮播（左右）
+	 function ScrollImgLeft(num){ 
+	 var speed=num;
+	 var MyMar = null;
+	 var scroll_begin = document.getElementById("scroll_begin"); 
+	 var scroll_end = document.getElementById("scroll_end"); 
+	 var scroll_div = document.getElementById("scroll_div"); 
+	 scroll_end.innerHTML=scroll_begin.innerHTML; 
+	 function Marquee(){ 
+	  if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0) {
+	   scroll_div.scrollLeft-=scroll_begin.offsetWidth; 
+	  }else{
+	   scroll_div.scrollLeft++; 
+	  }
+	  } 
+	  MyMar=setInterval(Marquee,speed); 
+	  scroll_div.onmouseover = function(){
+	　　　　　clearInterval(MyMar);
+	　 	}
+	 　scroll_div.onmouseout = function(){
+	　　　　　MyMar = setInterval(Marquee,speed);　　　
+	　　　} 
+	};
+	$(function(){
+		ScrollImgLeft(10);
+	});
+  </script>
+</html>
